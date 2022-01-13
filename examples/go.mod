@@ -7,7 +7,7 @@ replace github.com/rabbull/dsf => ../../dsf
 require (
 	github.com/bytedance/sonic v1.0.0
 	github.com/go-redis/redis/v8 v8.11.4
-	github.com/rabbull/dsf v0.0.0-20220112191828-aae4fdcd3145
+	github.com/rabbull/dsf v0.0.1
 )
 
 require (

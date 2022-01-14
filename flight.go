@@ -97,7 +97,13 @@ func (f *groupImpl) Do(jobKey string, job Job) ([]byte, bool, error) {
 
 	jobResult := job()
 	dataKey := f.makeDataKey(threadID)
-	_ = f.client.Set(dataKey, jobResult, f.dataExp)
+	if err = f.client.Set(dataKey, jobResult, f.dataExp); err != nil {
+		return jobResult, false, nil
+	}
+	if err := f.client.Del(lockKey); err != nil {
+		return jobResult, false, nil
+	}
+
 	return jobResult, false, nil
 }
 

@@ -11,5 +11,6 @@ type RedisClient interface {
 	Nil() interface{}
 	Get(key string) ([]byte, error)
 	Set(key string, val []byte, exp time.Duration) error
+	Del(key string) error
 	Eval(script string, keys []string, args ...interface{}) (interface{}, error)
 }

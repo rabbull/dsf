@@ -49,7 +49,8 @@ func worker(workerID int, sigDone, sigTakeOff *sync.WaitGroup) {
 	defer sigDone.Done()
 
 	client := redis.NewClient(&redis.Options{
-		Addr: "127.0.0.1:6379",
+		Addr:     REDIS_ADDR,
+		Password: REDIS_PASS,
 	})
 	if client == nil {
 		println("client is nil")

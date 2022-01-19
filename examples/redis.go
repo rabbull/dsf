@@ -38,6 +38,8 @@ func (c *GoRedisClient) Del(key string) error {
 	return c.Client.Del(c.Ctx, key).Err()
 }
 
-func (c *GoRedisClient) Eval(script string, keys []string, args ...interface{}) (interface{}, error) {
+func (c *GoRedisClient) Eval(
+	script string, keys []string, args ...interface{},
+) (interface{}, error) {
 	return c.Client.Eval(c.Ctx, script, keys, args).Result()
 }

@@ -54,7 +54,7 @@ func (b *optionBuilderImpl) Build() Option {
 		return nil
 	}
 	cpy := *b
-	return cpy
+	return &cpy
 }
 
 func (b *optionBuilderImpl) WithContext(ctx context.Context) OptionBuilder {

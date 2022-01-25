@@ -53,7 +53,8 @@ func (b *optionBuilderImpl) Build() Option {
 		b.resultWaitTime <= 0 {
 		return nil
 	}
-	return b
+	cpy := *b
+	return cpy
 }
 
 func (b *optionBuilderImpl) WithContext(ctx context.Context) OptionBuilder {

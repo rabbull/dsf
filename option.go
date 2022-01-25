@@ -11,7 +11,6 @@ type OptionBuilder interface {
 	Build() Option
 
 	WithContext(ctx context.Context) OptionBuilder
-	WithLogger(logger Logger) OptionBuilder
 	WithRedisClient(client RedisClient) OptionBuilder
 	WithNamespace(namespace string) OptionBuilder
 
@@ -25,7 +24,6 @@ type OptionBuilder interface {
 func NewOptionBuilder() OptionBuilder {
 	return &optionBuilderImpl{
 		ctx:            context.Background(),
-		logger:         nil,
 		namespace:      "default",
 		lockExp:        time.Second,
 		dataExp:        2 * time.Second,
@@ -39,7 +37,6 @@ func NewOptionBuilder() OptionBuilder {
 
 type optionBuilderImpl struct {
 	ctx            context.Context
-	logger         Logger
 	client         RedisClient
 	namespace      string
 	lockExp        time.Duration
@@ -64,11 +61,6 @@ func (b *optionBuilderImpl) WithContext(ctx context.Context) OptionBuilder {
 	return b
 }
 
-func (b *optionBuilderImpl) WithLogger(logger Logger) OptionBuilder {
-	b.logger = logger
-	return b
-}
-
 func (b *optionBuilderImpl) WithRedisClient(client RedisClient) OptionBuilder {
 	b.client = client
 	return b
@@ -79,13 +71,13 @@ func (b *optionBuilderImpl) WithNamespace(namespace string) OptionBuilder {
 	return b
 }
 
-func (b *optionBuilderImpl) WithLockExpiration(exp time.Duration) OptionBuilder {
-	b.lockExp = exp
+func (b *optionBuilderImpl) WithLockExpiration(t time.Duration) OptionBuilder {
+	b.lockExp = t
 	return b
 }
 
-func (b *optionBuilderImpl) WithDataExpiration(exp time.Duration) OptionBuilder {
-	b.dataExp = exp
+func (b *optionBuilderImpl) WithDataExpiration(t time.Duration) OptionBuilder {
+	b.dataExp = t
 	return b
 }
 
@@ -99,7 +91,9 @@ func (b *optionBuilderImpl) WithWaitTime(duration time.Duration) OptionBuilder {
 	return b
 }
 
-func (b *optionBuilderImpl) WithInterval(makeInterval func(retryTimes int) time.Duration) OptionBuilder {
+func (b *optionBuilderImpl) WithInterval(
+	makeInterval func(retryTimes int) time.Duration,
+) OptionBuilder {
 	b.makeInterval = makeInterval
 	return b
 }

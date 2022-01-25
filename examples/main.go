@@ -65,10 +65,6 @@ func worker(workerID int, sigDone *sync.WaitGroup) {
 		dsf.NewOptionBuilder().
 			WithContext(context.Background()).
 			WithRedisClient(redisClient).
-			WithLogger(&LoggerImpl{
-				ID:  int64(workerID),
-				Lvl: Info,
-			}).
 			WithLockExpiration(5 * time.Second).
 			WithDataExpiration(10 * time.Second).
 			KeepLock(false).

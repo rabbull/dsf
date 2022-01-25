@@ -14,6 +14,7 @@ type Job func() []byte
 
 type Group interface {
 	Do(jobKey string, job Job) (result []byte, shared bool, err error)
+	Forget(jobKey string) (err error)
 }
 
 func New(opt Option) Group {
@@ -140,4 +141,8 @@ func (f *groupImpl) tryFetchResult(dataKey string) ([]byte, bool, error) {
 		return nil, false, err
 	}
 	return sharedResult, true, nil
+}
+
+func (f *groupImpl) Forget(jobKey string) error {
+	return f.client.Del(f.makeLockKey(jobKey))
 }
